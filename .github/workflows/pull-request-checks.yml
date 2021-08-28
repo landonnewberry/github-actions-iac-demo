@@ -1,0 +1,19 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+
+  run-pr-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if grep -q "Platypus" index.html
+          then
+            exit 0
+          else
+            exit 1
+          fi
+          
