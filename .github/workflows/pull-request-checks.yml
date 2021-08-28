@@ -1,0 +1,24 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+
+  run-pr-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Look for the platypus
+        run: |
+          if grep -q "Platypus" ${{ github.workspace }}/index.html
+          then
+            exit 0
+          else
+            exit 1
+          fi
