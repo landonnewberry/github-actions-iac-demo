@@ -35,11 +35,7 @@ jobs:
       - name: Terraform Init
         working-directory: ./infrastructure
         id: init
-        run: echo "1" | terraform init
-
-      - name: Select Terraform Workspace
-        working-directory: ./infrastructure
-        run: terraform workspace select stage
+        run: terraform init
 
       - name: Terraform Validate
         working-directory: ./infrastructure
