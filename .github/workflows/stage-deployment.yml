@@ -15,6 +15,8 @@ jobs:
   deploy-stage-infrastructure:
     needs: run-stage-tests
     runs-on: ubuntu-latest
+    env:
+      TF_WORKSPACE: stage
     environment: stage
     steps:
       - name: Checkout
@@ -29,22 +31,11 @@ jobs:
       - name: Terraform Format
         working-directory: ./infrastructure
         run: terraform fmt -check
-
-      - working-directory: ./infrastructure
-        run: terraform workspace list
-
-      - name: Select workspace
-        working-directory: ./infrastructure
-        run: terraform workspace select stage
       
       - name: Terraform Init
         working-directory: ./infrastructure
         id: init
-        run: echo "1" | terraform init
-
-      - name: Select Terraform Workspace
-        working-directory: ./infrastructure
-        run: terraform workspace select stage
+        run: terraform init
 
       - name: Terraform Validate
         working-directory: ./infrastructure
