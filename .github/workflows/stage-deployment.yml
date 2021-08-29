@@ -27,9 +27,10 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_SECRET }}
 
       - name: Terraform Format
-        working-directory: ./infrastructure
-        id: fmt
-        run: terraform fmt -check
+        uses: hashicorp/terraform-github-actions/fmt@v0.2.0
+        secrets: ["GITHUB_TOKEN"]
+        env:
+          - TF_ACTION_WORKING_DIR: ./infrastructure
       
       - name: Terraform Init
         working-directory: ./infrastructure
