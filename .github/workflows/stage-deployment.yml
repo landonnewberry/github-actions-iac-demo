@@ -20,6 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Move to Infrastructure
+        run: cd infrastructure/
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -32,19 +35,19 @@ jobs:
       
       - name: Terraform Init
         id: init
-        run: yes 1 | terraform init infrastructure
+        run: yes 1 | terraform init
 
       - name: Select Terraform Workspace
-        run: terraform workspace select stage infrastructure
+        run: terraform workspace select stage
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color infrastructure
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -no-color infrastructure
+        run: terraform plan -no-color
         continue-on-error: true
 
       - name: Update Pull Request
