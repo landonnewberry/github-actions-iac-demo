@@ -28,7 +28,14 @@ jobs:
 
       - name: Terraform Format
         working-directory: ./infrastructure
-        uses: hashicorp/terraform-github-actions/fmt@v0.2.0
+        run: terraform fmt -check
+
+      - working-directory: ./infrastructure
+        run: terraform workspace list
+
+      - name: Select workspace
+        working-directory: ./infrastructure
+        run: terraform workspace select stage
       
       - name: Terraform Init
         working-directory: ./infrastructure
