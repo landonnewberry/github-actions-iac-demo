@@ -9,9 +9,11 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket = "github-actions-iac-demo-tfstate"
-    key    = "state"
-    region = "us-west-1"
+  backend "remote" {
+    organization = "landon"
+
+    workspaces {
+      prefix = "github-actions-iac-demo_"
+    }
   }
 }

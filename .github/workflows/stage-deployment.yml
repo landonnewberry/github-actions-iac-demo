@@ -6,8 +6,14 @@ on:
       - main
 
 jobs:
+  run-stage-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Pretending to run some tests before stage deployment allowed..."
+
 
   deploy-stage-infrastructure:
+    needs: run-stage-tests
     runs-on: ubuntu-latest
     environment: stage
     steps:
@@ -20,9 +26,6 @@ jobs:
           # terraform_version: 0.13.0
           cli_config_credentials_token: ${{ secrets.TF_API_SECRET }}
 
-      - name: Select Stage Workspace
-        run: terraform workspace select stage_github-actions-iac-demo
-
       - name: Terraform Format
         id: fmt
         run: terraform fmt -check
@@ -30,6 +33,9 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+
+      - name: Select Terraform Workspace
+        run: terraform workspace select stage
 
       - name: Terraform Validate
         id: validate
@@ -78,15 +84,9 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
-
-
-  run-stage-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Pretending to run some tests before stage deployment allowed..."
       
   deploy-to-stage:
-    needs: run-stage-tests
+    needs: deploy-stage-infrastructure
     runs-on: ubuntu-latest
     environment: stage
     steps:
