@@ -32,14 +32,14 @@ jobs:
       
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: yes 1 | terraform init infrastructure/
 
       - name: Select Terraform Workspace
-        run: terraform workspace select stage
+        run: terraform workspace select infrastructure stage
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate infrastructure -no-color
 
       - name: Terraform Plan
         id: plan
