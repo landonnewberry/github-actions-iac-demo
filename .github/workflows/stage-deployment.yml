@@ -34,7 +34,7 @@ jobs:
       - name: Terraform Init
         working-directory: ./infrastructure
         id: init
-        run: yes 1 | terraform init
+        run: echo "1" | terraform init
 
       - name: Select Terraform Workspace
         working-directory: ./infrastructure
