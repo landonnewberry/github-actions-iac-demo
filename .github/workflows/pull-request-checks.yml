@@ -24,6 +24,7 @@ jobs:
           fi
 
   show-terraform-plans-for-stage:
+    needs: run-pr-tests
     runs-on: ubuntu-latest
     env:
       TF_WORKSPACE: stage
