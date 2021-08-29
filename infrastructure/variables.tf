@@ -1,11 +1,13 @@
 locals {
   project     = "github-actions-iac-demo"
   environment = terraform.workspace
-  region      = "us-west-2"
 
   env = {
     defaults = {
       instance_count = 1
+      project        = local.project
+      environment    = terraform.workspace
+      region         = "us-west-2"
     }
   }
 
