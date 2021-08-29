@@ -20,9 +20,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Move to Infrastructure
-        run: cd infrastructure/
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -30,21 +27,26 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_SECRET }}
 
       - name: Terraform Format
+        working-directory: ./infrastructure
         id: fmt
         run: terraform fmt -check
       
       - name: Terraform Init
+        working-directory: ./infrastructure
         id: init
         run: yes 1 | terraform init
 
       - name: Select Terraform Workspace
+        working-directory: ./infrastructure
         run: terraform workspace select stage
 
       - name: Terraform Validate
+        working-directory: ./infrastructure
         id: validate
         run: terraform validate -no-color
 
       - name: Terraform Plan
+        working-directory: ./infrastructure
         id: plan
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
