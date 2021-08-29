@@ -32,19 +32,19 @@ jobs:
       
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: yes 1 | terraform init infrastructure
 
       - name: Select Terraform Workspace
-        run: terraform workspace select stage
+        run: terraform workspace select stage infrastructure
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate -no-color infrastructure
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -no-color
+        run: terraform plan -no-color infrastructure
         continue-on-error: true
 
       - name: Update Pull Request
