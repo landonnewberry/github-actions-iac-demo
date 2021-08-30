@@ -1,9 +1,9 @@
 resource "aws_s3_bucket" "test_bucket" {
-  bucket = "${local.workspace.environment}-${local.workspace.project}"
+  bucket = "${local.environment}-${local.project}"
   acl    = "private"
 
   tags = {
     Name        = "Landon Test Bucket for Github Actions IAC Demo..."
-    Environment = local.workspace.environment
+    Environment = local.environment
   }
 }
