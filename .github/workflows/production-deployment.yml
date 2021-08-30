@@ -15,7 +15,7 @@ jobs:
     steps:
       - run: echo "Pretending to run some tests before stage deployment allowed..."
 
-  deploy-stage-infrastructure:
+  deploy-production-infrastructure:
     needs: run-production-tests
     runs-on: ubuntu-latest
     env:
