@@ -51,8 +51,7 @@ jobs:
         run: terraform apply -auto-approve -var="workspace=$TF_WORKSPACE"
 
   deploy-to-production:
-    needs: run-production-tests
+    needs: deploy-production-infrastructure
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - run: echo "Fake deployment to production"

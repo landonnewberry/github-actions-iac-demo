@@ -50,6 +50,5 @@ jobs:
   deploy-application-to-stage:
     needs: deploy-stage-infrastructure
     runs-on: ubuntu-latest
-    environment: stage
     steps:
       - run: echo "Fake deployment"
