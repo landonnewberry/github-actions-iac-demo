@@ -16,6 +16,8 @@ jobs:
     needs: run-stage-tests
     runs-on: ubuntu-latest
     environment: stage
+    env:
+      TF_WORKSPACE: stage
     steps:
       - name: Checkout
         uses: actions/checkout@v2
