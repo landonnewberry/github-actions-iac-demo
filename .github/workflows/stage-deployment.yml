@@ -12,11 +12,9 @@ jobs:
       - run: echo "Pretending to run some tests before stage deployment allowed..."
 
 
-  deploy-stage-infrastructure:
+  deploy-stage:
     needs: run-stage-tests
     runs-on: ubuntu-latest
-    env:
-      TF_WORKSPACE: stage
     environment: stage
     steps:
       - name: Checkout
@@ -46,6 +44,25 @@ jobs:
         working-directory: ./infrastructure
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
+
+      - name: Fetch Terraform Output
+        id: terraform_output
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: 'output'
+          tf_actions_working_dir: './infrastructure'
+
+      - name: Deploy Code to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ steps.terraform_output.outputs.bucket_name }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-west-1'   # optional: defaults to us-east-1
+          SOURCE_DIR: 'website'     # optional: defaults to entire repository
       
   deploy-application-to-stage:
     needs: deploy-stage-infrastructure
