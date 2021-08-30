@@ -49,6 +49,9 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Fetch Bucket Name from Terraform Output
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
         id: terraform_output
         working-directory: ./infrastructure
         if: steps.terraform_apply.outcome != 'failure'
