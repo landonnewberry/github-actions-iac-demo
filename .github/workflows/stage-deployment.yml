@@ -54,14 +54,14 @@ jobs:
         run: echo "::set-output name=bucket_name::$(terraform output bucket_name)"
       
       - name: Show Bucket Name
-        run: echo "The bucket to upload to is ${{ steps.terraform_output.outputs.bucket_name }}"
+        run: echo "The bucket to upload to is $(terraform output bucket_name)"
 
       - name: Deploy Code to S3
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: ${{ steps.terraform_output.outputs.bucket_name }}
+          AWS_S3_BUCKET: $(terraform output bucket_name)
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-west-1'   # optional: defaults to us-east-1
