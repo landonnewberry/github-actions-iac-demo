@@ -67,7 +67,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `INCOMING STAGE INFRASTRUCTURE CHANGES:\`
+            const output = `### INCOMING STAGE INFRASTRUCTURE CHANGES:
             #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
@@ -138,7 +138,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `INCOMING PRODUCTION INFRASTRUCTURE CHANGES:\`
+            const output = `### INCOMING PRODUCTION INFRASTRUCTURE CHANGES:
             #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
