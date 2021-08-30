@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Look for the platypus
         run: |
-          if grep -q "Platypus" ${{ github.workspace }}/index.html
+          if grep -q "Platypus" ${{ github.workspace }}/website/index.html
           then
             exit 0
           else
