@@ -1,19 +1,23 @@
+variable "environment" {
+  type = string
+}
+
 locals {
   project     = "github-actions-iac-demo"
-  environment = terraform.workspace
+  environment = var.environment
 
   env = {
     defaults = {
       instance_count = 1
       project        = local.project
-      environment    = terraform.workspace
+      environment    = var.environment
       region         = "us-west-2"
     }
   }
 
   default_tags = {
     project     = local.project
-    environment = terraform.workspace
+    environment = var.environment
     terraform   = true
   }
 
@@ -26,9 +30,9 @@ locals {
     }
   }
 
-  workspace = merge(local.env["defaults"], lookup(
+  workspace = merge(local.env.defaults, lookup(
     local.workspaces,
-    terraform.workspace,
+    var.environment,
     local.workspaces.stage
   ))
 }
