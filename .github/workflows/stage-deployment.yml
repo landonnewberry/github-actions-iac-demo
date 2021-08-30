@@ -48,11 +48,11 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
 
-      - name: Fetch Terraform Output
+      - name: Fetch Bucket Name from Terraform Output
         id: terraform_output
         working-directory: ./infrastructure
         if: steps.terraform_apply.outcome != 'failure'
-        run: terraform output
+        run: echo "::set-output name=bucket_name::$(terraform output bucket_name)"
 
       - name: Deploy Code to S3
         uses: jakejarvis/s3-sync-action@master
